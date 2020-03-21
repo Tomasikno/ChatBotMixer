@@ -26,15 +26,21 @@ import java.util.concurrent.ExecutionException;
  */
 public class Chat {
   
+    private static MixerAPI mixer;
+    private static MixerChatConnectable chatConnectable;
+    private static MixerChat chat;
+    private static MixerUser user;
+    
     public static void main(String args[]) throws ExecutionException, InterruptedException {
     }
+
     
     public static void connect() throws ExecutionException, InterruptedException  {
-        MixerAPI mixer = new MixerAPI("bd267472ccc3eac0142b16300d3f6af1882fc56fd9cdab7a","Z26rq7sIIEMirZCxIVqaDvqcgQqu1bCiZNCoAftFq6uWGTsfs2GhyMDBinQWTbAI");
+        mixer = new MixerAPI("bd267472ccc3eac0142b16300d3f6af1882fc56fd9cdab7a","Z26rq7sIIEMirZCxIVqaDvqcgQqu1bCiZNCoAftFq6uWGTsfs2GhyMDBinQWTbAI");
         
-        MixerUser user = mixer.use(UsersService.class).getCurrent().get();
-        MixerChat chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
-        MixerChatConnectable chatConnectable = chat.connectable(mixer);
+        user = mixer.use(UsersService.class).getCurrent().get();
+        chat = mixer.use(ChatService.class).findOne(user.channel.id).get();
+        chatConnectable = chat.connectable(mixer);
         
         if (chatConnectable.connect()) {
            chatConnectable.send(AuthenticateMessage.from(user.channel, user, chat.authkey), new ReplyHandler<AuthenticationReply>() {
@@ -59,5 +65,10 @@ public class Chat {
                     event.data.username)));
         });
     }
+    
+    public static void sendText(String text) {
+        chatConnectable.send(ChatSendMethod.of(text));
+    }
+
     
 }
