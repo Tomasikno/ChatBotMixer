@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.chatbot.chatbot;
+package com.chatbot;
 
 import com.mixer.api.MixerAPI;
 import com.mixer.api.resource.MixerUser;
@@ -24,12 +24,12 @@ import java.util.concurrent.ExecutionException;
  *
  * @author TomPa
  */
-public class MixerChat {
-   
-    //private MixerUser user;
-   // private MixerUser chat;
-   // 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+public class Chat {
+  
+    public static void main(String args[]) throws ExecutionException, InterruptedException {
+    }
+    
+    public static void connect() throws ExecutionException, InterruptedException  {
         MixerAPI mixer = new MixerAPI("bd267472ccc3eac0142b16300d3f6af1882fc56fd9cdab7a","Z26rq7sIIEMirZCxIVqaDvqcgQqu1bCiZNCoAftFq6uWGTsfs2GhyMDBinQWTbAI");
         
         MixerUser user = mixer.use(UsersService.class).getCurrent().get();
@@ -54,9 +54,9 @@ public class MixerChat {
         });
 
         chatConnectable.on(UserJoinEvent.class, event -> {
-          /*  chatConnectable.send(ChatSendMethod.of(
+            chatConnectable.send(ChatSendMethod.of(
                     String.format("Hi %s! I'm pingbot! Write !ping and I will pong back!",
-                    event.data.username)));*/
+                    event.data.username)));
         });
     }
     
